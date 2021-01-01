@@ -6,11 +6,11 @@ import Hot from '../Hot/Hot';
 import BookTable from '../BookTable/BookTable';
 import HomeStack from '../Home/HomeStack';
 import Cart from '../Cart/Cart';
+import { connect } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
-export default class BottomNavigator extends Component {
-    render(){
+const BottomNavigator = (props) => {
         return(
             <Tab.Navigator
                 tabBarOptions = {{
@@ -48,9 +48,17 @@ export default class BottomNavigator extends Component {
                     tabBarIcon: ({color}) => (
                         <Ionicons name="cart-outline" size={26} color={color}/>
                     ),
+                    tabBarBadge:props.numberCart
                 }}
                 />
             </Tab.Navigator>
         );
     }
+
+const mapStateToProps = state => {
+    return{
+        numberCart : state.monAn.numberCart
+    }
 }
+
+export default connect(mapStateToProps,null)(BottomNavigator);

@@ -14,7 +14,7 @@ const SectionCategory = (props) => {
                     </View>
                     <View style={styles.detailCustomer}>
                         <View >
-                            <Text style={{ fontSize: 16 }} numberOfLines={1} ellipsizeMode="tail">{props.data.name}</Text>
+                            <Text style={{ fontSize: 16 }} numberOfLines={1} ellipsizeMode="tail">{props.data.tenMA}</Text>
                         </View>
                         <View>
                             <Text>price</Text>
@@ -26,10 +26,10 @@ const SectionCategory = (props) => {
                     </View>
                 </View>
                 <View style={{flexDirection:'row'}}>
-                    <TouchableOpacity style={styles.bookTable} onPress={()=>props.navigation.navigate('HomeDetailMenu')}>
+                    <TouchableOpacity style={styles.bookTable} onPress={()=> props.navigation.navigate('HomeDetailMenu')}>
                         <Text>Xem chi tiết</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.bookTable}>
+                    <TouchableOpacity style={styles.bookTable} onPress={() => props.data.AddCart()}>
                         <Text>Thêm vào giỏ hàng</Text>
                     </TouchableOpacity>
                 </View>
