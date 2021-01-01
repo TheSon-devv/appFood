@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "reac
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import meat from "../../assets/image/meat.png";
-import clean from "../../assets/image/clean.png";
+import luxury from "../../assets/image/luxury.png";
 import food from "../../assets/image/food.png";
 
 const SectionIntro = (props) => {
@@ -21,8 +21,8 @@ const SectionIntro = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={styles.category}>
-                        <Image source={clean} style={styles.imgIntro} />
-                        <Text style={styles.textIntro}>Sạch sẽ</Text>
+                        <Image source={luxury} style={styles.imgIntro} />
+                        <Text style={styles.textIntro}>Sang trọng</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>

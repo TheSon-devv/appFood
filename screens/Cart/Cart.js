@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import {
     View, Text, TouchableOpacity, ScrollView,
-    Dimensions, StyleSheet, Image
+    Dimensions, StyleSheet, Image, SafeAreaView
 } from 'react-native';
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+//redux
 import { connect } from "react-redux";
+import HeaderCart from '../../components/Cart/HeaderCart';
 import { IncreaseQuantity, DecreaseQuantity, DeleteCart } from '../actions/monAn';
 
-import swiper1 from "../assets/image/swiper1.jpg";
 
 
-function Cart({ items, IncreaseQuantity, DecreaseQuantity,DeleteCart }) {
+function Cart({ items, IncreaseQuantity, DecreaseQuantity, DeleteCart, navigation }) {
     const { main, checkoutButton, checkoutTitle, wrapper,
         product, mainRight, productController,
         txtName, txtPrice, productImage, numberOfProduct,
@@ -29,52 +32,65 @@ function Cart({ items, IncreaseQuantity, DecreaseQuantity,DeleteCart }) {
 
     return (
         <View style={wrapper}>
-            <ScrollView style={main}>
-                {
-                    ListCart.map((item, key) => {
-                        return (
-                            <View style={product} key={item.maMA}>
-                                <View>
-                                    <Image source={item.imgFood} style={productImage} />
-                                </View>
-                                <View style={[mainRight]}>
-                                    <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                                        <Text style={txtName}>{item.tenMA}</Text>
-                                        <TouchableOpacity onPress={() => DeleteCart(key)}>
-                                            <Text style={{ fontFamily: 'Avenir', color: '#969696',fontSize:20 }}>X</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View>
-                                        <Text style={txtPrice}>{TotalPrice(item.priceMA,item.quantity)}</Text>
-                                    </View>
-                                    <View style={productController}>
-                                        <View style={numberOfProduct}>
-                                            <TouchableOpacity onPress={() => IncreaseQuantity(key)}>
-                                                <View style={styles.buttonClick}>
-                                                    <Text style={styles.textButton}>+</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                            <Text style={{ fontSize: 20 }}>{item.quantity}</Text>
-                                            <TouchableOpacity onPress={() => DecreaseQuantity(key)}>
-                                                <View style={styles.buttonClick}>
-                                                    <Text style={styles.textButton}>-</Text>
-                                                </View>
-                                            </TouchableOpacity>
+            <HeaderCart navigation={navigation} />
+            {
+                items.numberCart == 0 ? (
+                    <View style={styles.empty}>
+                        <Ionicons name="cart-outline" size={60} style={{marginVertical:10}}/>
+                        <Text style={{fontStyle:'italic'}}>Hiện không có sản phẩm nào trong giỏ hàng</Text>
+                    </View>
+                ) : (<>
+                    <ScrollView style={main}>
+                        {
+                            ListCart.map((item, key) => {
+                                return (
+                                    <View style={product} key={item.maMA}>
+                                        <View>
+                                            <Image source={{ uri: item.imgFood }} style={productImage} />
                                         </View>
-                                        <TouchableOpacity style={showDetailContainer}>
-                                            <Text style={txtShowDetail}>SHOW DETAILS</Text>
-                                        </TouchableOpacity>
+                                        <View style={[mainRight]}>
+                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                                <View style={{ width: 240 }}>
+                                                    <Text style={txtName} numberOfLines={1}>{item.tenMA}</Text>
+                                                </View>
+                                                <TouchableOpacity onPress={() => DeleteCart(key)} style={{width:25,alignItems:'center'}}>
+                                                    <Text style={{ fontFamily: 'Avenir', color: '#969696', fontSize: 20 }}>X</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <Text style={txtPrice}>{TotalPrice(item.priceMA, item.quantity)} VND</Text>
+                                            </View>
+                                            <View style={productController}>
+                                                <View style={numberOfProduct}>
+                                                    <TouchableOpacity onPress={() => DecreaseQuantity(key)}>
+                                                        <View style={styles.buttonClick}>
+                                                            <Text style={styles.textButton}>-</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                    <View style={{ marginHorizontal: 20 }}>
+                                                        <Text style={{ fontSize: 20 }}>{item.quantity}</Text>
+                                                    </View>
+                                                    <TouchableOpacity onPress={() => IncreaseQuantity(key)}>
+                                                        <View style={styles.buttonClick}>
+                                                            <Text style={styles.textButton}>+</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </View>
                                     </View>
-                                </View>
-                            </View>
-                        )
-                    })
-                }
+                                )
+                            })
+                        }
 
-            </ScrollView>
-            <TouchableOpacity style={checkoutButton}>
-                <Text style={checkoutTitle}>CHỐT ĐƠN {Number(TotalCart)} VND </Text>
-            </TouchableOpacity>
+                    </ScrollView>
+                    <TouchableOpacity style={checkoutButton}>
+                        <Text style={checkoutTitle}>ĐẶT MÓN {Number(TotalCart)} VND </Text>
+                    </TouchableOpacity>
+                </>
+                    )
+            }
+
         </View>
     );
 }
@@ -84,6 +100,11 @@ const imageWidth = width / 4;
 const imageHeight = (imageWidth * 452) / 400;
 
 const styles = StyleSheet.create({
+    empty : {
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },  
     wrapper: {
         flex: 1,
         backgroundColor: '#DFDFDF'
@@ -122,10 +143,7 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 10,
         backgroundColor: '#FFFFFF',
-        borderRadius: 2,
-        shadowColor: '#3B5458',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.2
+        borderRadius: 5
     },
     productImage: {
         width: imageWidth,
@@ -135,7 +153,6 @@ const styles = StyleSheet.create({
     mainRight: {
         flex: 3,
         justifyContent: 'space-between',
-
     },
     productController: {
         flexDirection: 'row'
@@ -143,7 +160,7 @@ const styles = StyleSheet.create({
     numberOfProduct: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'center'
     },
     txtName: {
         paddingLeft: 20,
@@ -155,7 +172,7 @@ const styles = StyleSheet.create({
     txtPrice: {
         paddingLeft: 20,
         color: '#C21C70',
-        fontSize: 20,
+        fontSize: 14,
         fontWeight: '400',
         fontFamily: 'Avenir'
     },
@@ -178,4 +195,4 @@ const mapStateToProp = state => {
         items: state.monAn
     }
 }
-export default connect(mapStateToProp, { IncreaseQuantity, DecreaseQuantity ,DeleteCart})(Cart);
+export default connect(mapStateToProp, { IncreaseQuantity, DecreaseQuantity, DeleteCart })(Cart);

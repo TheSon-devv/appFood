@@ -25,22 +25,25 @@ const food1 = [
     { id: 5, name: "Nướng Hàn Quốc" },
 ]
 
-const Home = ({navigation}) => {
+const Home = (props) => {
     const [menu, setMenu] = useState(food);
     const [menu1, setMenu1] = useState(food1);
+
     return (
         <View style={{backgroundColor:'#fff',marginBottom:75}}>
-            <HeaderHome navigation={navigation}/>
+            <HeaderHome navigation={props.navigation}/>
             {/* <SectionSearch /> */}
             <ScrollView showsVerticalScrollIndicator={false}>
                 <SwiperHome />
-                <SectionMenu menu={menu} navigation={navigation}/>
-                <SectionFood menu={menu} navigation={navigation}/>
-                <SectionFood1 menu1={menu1} navigation={navigation}/>
+                <SectionMenu navigation={props.navigation}/>
+                <SectionFood menu={menu} navigation={props.navigation}/>
+                <SectionFood1 menu1={menu1} navigation={props.navigation}/>
                 <SectionIntro />
                 <SectionFooter />
             </ScrollView>
         </View>
     )
+
 }
+
 export default Home;

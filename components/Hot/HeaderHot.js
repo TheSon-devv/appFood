@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 15,
         marginBottom: 10,
-        backgroundColor:'#FF6347'
+        backgroundColor:'#fff'
     },
     bars: {
         flex: 1,

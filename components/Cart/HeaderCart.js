@@ -1,23 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-const HeaderHomeDetail = ({navigation}) => {
+const HeaderCart = ({ navigation }) => {
 
     return (
         <View style={styles.headerContainer}>
             <View style={styles.bars}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name="chevron-back" size={25} color="black"/>
+                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                    <FontAwesome name="bars" size={20} color="black" />
                 </TouchableOpacity>
             </View>
             <View style={styles.trangChu}>
-                <Text style={styles.textTrangChu}>Chi tiết món ăn</Text>
+                <Text style={styles.textTrangChu}>Giỏ hàng</Text>
             </View>
             <View style={styles.information}>
-                {/* <TouchableOpacity>
-                    <FontAwesome name="info" size={25} color="black" />
-                </TouchableOpacity> */}
+
             </View>
         </View>
     )
@@ -27,11 +25,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 15,
         marginBottom: 10,
+        backgroundColor:'#fff'
     },
     bars: {
         flex: 1,
         marginLeft: 10,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     trangChu: {
         flex: 1.5,
@@ -47,8 +46,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-end',
         marginRight: 10,
-        justifyContent:'center'
+        justifyContent: 'center'
     }
 })
 
-export default HeaderHomeDetail;
+export default HeaderCart;

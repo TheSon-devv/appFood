@@ -17,17 +17,17 @@ export const UPDATE_CART = 'UPDATE_CART';
 export const DELETE_CART = 'DELETE_CART';
 
 
-export const actFetchProductsRequest = () => {
+export const monAnHOT = () => {
     return (dispatch) => {
-        return callApi('MonAn', 'GET', null).then(res => {
+        return callApi('MonAnHot', 'GET', null).then(res => {
+            dispatch(GetAllMonAnHOT(res.data));
             console.log(res.data);
-            dispatch(GetAllProduct(res.data));
         });
     }
 }
 
 /*GET_ALL_PRODUCT*/
-export function GetAllProduct(payload) {
+export function GetAllMonAnHOT(payload) {
     return {
         type: 'GET_ALL_PRODUCT',
         payload
