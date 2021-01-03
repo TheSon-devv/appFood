@@ -1,27 +1,46 @@
 import callApi from "./api";
 
-// export const ACTION_TYPE_MON_AN = {
-//     CREATE_MON_AN: 'CREATE_MON_AN',
-//     UPDATE_MON_AN: 'UPDATE_MON_AN',
-//     DELETE_MON_AN: 'DELETE_MON_AN',
-//     FETCH_ALL_MON_AN: 'FETCH_ALL_MON_AN',
-//     GET_NUMBER_CART : 'GET_NUMBER_CART'
-// }
-
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const GET_ALL_PRODUCT = 'GET_ALL_PRODUCT';
+export const GET_ALL_MON_LAU = 'GET_ALL_MON_LAU';
+export const GET_ALL_MON_PIZZA = 'GET_ALL_MON_PIZZA';
+export const GET_ALL_MON_BUFFET= 'GET_ALL_MON_BUFFET';
 export const GET_NUMBER_CART = 'GET_NUMBER_CART';
 export const ADD_CART = 'ADD_CART';
 export const UPDATE_CART = 'UPDATE_CART';
 export const DELETE_CART = 'DELETE_CART';
 
 
+
 export const monAnHOT = () => {
     return (dispatch) => {
         return callApi('MonAnHot', 'GET', null).then(res => {
             dispatch(GetAllMonAnHOT(res.data));
-            console.log(res.data);
+        });
+    }
+}
+
+export const monAnLau = () => {
+    return (dispatch) => {
+        return callApi('MonAnLau', 'GET', null).then(res => {
+            dispatch(GetAllMonAnLau(res.data));
+        });
+    }
+}
+
+export const monAnPizza = () => {
+    return (dispatch) => {
+        return callApi('MonAnPizza', 'GET', null).then(res => {
+            dispatch(GetAllMonPizza(res.data));
+        });
+    }
+}
+
+export const monAnBuffet = () => {
+    return (dispatch) => {
+        return callApi('MonAnBuffet', 'GET', null).then(res => {
+            dispatch(GetAllMonBuffet(res.data));
         });
     }
 }
@@ -30,6 +49,30 @@ export const monAnHOT = () => {
 export function GetAllMonAnHOT(payload) {
     return {
         type: 'GET_ALL_PRODUCT',
+        payload
+    }
+}
+
+/*GET_ALL_LAU*/
+export function GetAllMonAnLau(payload) {
+    return {
+        type: 'GET_ALL_MON_LAU',
+        payload
+    }
+}
+
+/*GET_ALL_PIZZA*/
+export function GetAllMonPizza(payload) {
+    return {
+        type: 'GET_ALL_MON_PIZZA',
+        payload
+    }
+}
+
+/*GET_ALL_BUFFET*/
+export function GetAllMonBuffet(payload) {
+    return {
+        type: 'GET_ALL_MON_BUFFET',
         payload
     }
 }

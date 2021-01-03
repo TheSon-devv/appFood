@@ -4,31 +4,41 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { connect } from "react-redux";
-import { monAnHOT } from "../../actions/monAn";
+import { monAnBuffet,monAnLau,monAnPizza } from "../../actions/monAn";
 import { useEffect } from "react";
 
 
 const SectionMenu = (props) => {
 
     useEffect(() => {
-        props.monAnHOT();
+        props.monAnPizza();
+        props.monAnLau();
+        props.monAnBuffet();
     },[])
 
     return (
         <>
             <View style={styles.headerContainer}>
-                <TouchableOpacity >
+                <TouchableOpacity  onPress={() => props.navigation.navigate('HomeDetailMenu',{
+                    menuParams: props.listMonAnLau
+                })}>
                     <View style={styles.category}>
                         <Ionicons name="restaurant" size={25} color="#FF6347" />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('HomeDetailMenu',{
+                    menuParams: props.listMonAnBuffet
+                })}>
                     <View style={styles.category}>
                         <Ionicons name="fast-food" size={30} color="#FF6347" />
                     </View>
                 </TouchableOpacity>
+
+
                 <TouchableOpacity onPress={() => props.navigation.navigate('HomeDetailMenu',{
-                    menuParams: props.listMonAn
+                    menuParams: props.listMonAnPizza
                 })}>
                     <View style={styles.category}>
                         <Ionicons name="pizza" size={35} color="#FF6347" />
@@ -40,17 +50,17 @@ const SectionMenu = (props) => {
             <View style={styles.headerContainer}>
                 <TouchableOpacity>
                     <View style={styles.category}>
-                        <Ionicons name="restaurant" size={25} color="#FF6347" />
+                        <Ionicons name="beer" size={30} color="#FF6347" />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={styles.category}>
-                        <MaterialCommunityIcons name="food-fork-drink" size={30} color="#FF6347" />
+                        <MaterialCommunityIcons name="pasta" size={30} color="#FF6347" />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={styles.category}>
-                        <MaterialCommunityIcons name="food" size={35} color="#FF6347" />
+                        <MaterialCommunityIcons name="hamburger" size={30} color="#FF6347" />
                     </View>
                 </TouchableOpacity>
 
@@ -77,13 +87,17 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    listMonAn: state.monAn.monAns
+    listMonAnLau: state.monAn.monAnLau,
+    listMonAnPizza: state.monAn.monAnPizza,
+    listMonAnBuffet: state.monAn.monAnBuffet
 })
 
 
 function mapDispatchToProps(dispatch) {
     return {
-        monAnHOT: () => dispatch(monAnHOT())
+        monAnLau: () => dispatch(monAnLau()),
+        monAnPizza: () => dispatch(monAnPizza()),
+        monAnBuffet: () => dispatch(monAnBuffet())
     }
 }
 

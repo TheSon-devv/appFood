@@ -3,25 +3,31 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Dimens
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import swiper1 from "../../assets/image/swiper1.jpg";
 
-
+import { connect } from "react-redux";
+import { monAnLau} from "../../actions/monAn";
+import { useEffect } from "react";
 
 const SectionFood = (props) => {
+
+    useEffect(() => {
+        props.monAnLau();
+    },[])
 
     return (
         <ScrollView>
 
             <View style={styles.container}>
                 <View style={{ marginLeft: 5, marginVertical: 5 }}>
-                    <Text style={{ fontSize: 18, color: '#B57171' }}>Món Ngon</Text>
+                    <Text style={{ fontSize: 18, color: '#B57171' }}>Món Lẩu</Text>
                 </View>
                 <ScrollView horizontal={true} style={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false}>
-                    {props.menu.map((e, index) => (
+                    {props.listMonAnLau.map((e, index) => (
 
-                        <View style={styles.itemContainer} key={e.id}>
+                        <View style={styles.itemContainer} key={e.maMA}>
                             <TouchableOpacity >
-                                <Image source={swiper1} style={styles.itemImage} />
+                                <Image source={{uri:e.imgFood}} style={styles.itemImage} />
                             </TouchableOpacity>
-                            <Text style={styles.itemName} numberOfLines={1}>{e.name.toUpperCase()}</Text>
+                            <Text style={styles.itemName} numberOfLines={1}>{e.tenMA.toUpperCase()}</Text>
 
                         </View>
                     ))}
@@ -66,4 +72,15 @@ const styles = StyleSheet.create({
 
 })
 
-export default SectionFood;
+const mapStateToProps = state => ({
+    listMonAnLau: state.monAn.monAnLau
+})
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        monAnLau: () => dispatch(monAnLau())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SectionFood);

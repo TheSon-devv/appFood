@@ -2,20 +2,20 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-const HeaderHot = (props) => {
+const HeaderContact = ({ navigation }) => {
 
     return (
         <View style={styles.headerContainer}>
             <View style={styles.bars}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.openDrawer()}>
                     <FontAwesome name="bars" size={20} color="black" />
                 </TouchableOpacity>
             </View>
             <View style={styles.trangChu}>
-                <Text style={styles.textTrangChu}>Đặt Bàn </Text>
+                <Text style={styles.textTrangChu}>Liên Hệ</Text>
             </View>
             <View style={styles.information}>
-                
+
             </View>
         </View>
     )
@@ -25,11 +25,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 15,
         marginBottom: 10,
+        backgroundColor:'#fff'
     },
     bars: {
         flex: 1,
         marginLeft: 10,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     trangChu: {
         flex: 1.5,
@@ -45,8 +46,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-end',
         marginRight: 10,
-        justifyContent:'center'
+        justifyContent: 'center'
     }
 })
 
-export default HeaderHot;
+export default HeaderContact;

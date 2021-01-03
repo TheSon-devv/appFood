@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, Dimensions, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, Dimensions, StyleSheet, Image, TouchableOpacity, RefreshControl } from "react-native";
 import HeaderHot from "../../components/Hot/HeaderHot";
 import SectionCategory from "./Section/SectionCategory";
 import { connect } from "react-redux";
 import { monAnHOT, AddCart } from "../actions/monAn";
 
-// const food = [
-//     { id: 1, name: "Lẩu ngon tại nhà", price: '200000/1 người' },
-//     { id: 2, name: "Buffer 199K", price: '300000/1 người' },
-//     { id: 3, name: "Nướng Hàn Quốc", price: '500000/1 người' },
-//     { id: 4, name: "Nướng Hàn Quốc", price: '600000/1 người' },
-//     { id: 5, name: "Nướng Hàn Quốc", price: '700000/1 người' },
-// ]
-
 
 const Hot = (props) => {
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         props.monAnHOT();
     }, [])
+
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
-            <HeaderHot navigation={props.navigation}/>
+            <HeaderHot navigation={props.navigation} />
             <FlatList
                 data={props.listMonAn}
                 renderItem={({ item }) => (
@@ -29,7 +23,7 @@ const Hot = (props) => {
                         <View style={styles.container} key={item.id}>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={styles.borderImage}>
-                                    <Image source={{uri:item.imgFood}} style={styles.image} />
+                                    <Image source={{ uri: item.imgFood }} style={styles.image} />
                                 </View>
                                 <View style={styles.detailCustomer}>
                                     <View style={{ marginBottom: 5 }}>
@@ -53,6 +47,11 @@ const Hot = (props) => {
                     </View>)
                 }
                 keyExtractor={item => `${item.maMA}`}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                    />
+                }
             />
         </View>
     )

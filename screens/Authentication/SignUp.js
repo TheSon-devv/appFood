@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, Dimensions, Image, TouchableOpacity, StatusBar, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Button, Dimensions, Image, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import foodStore from "../assets/image/foodStore.png";
 import Feather from "react-native-vector-icons/Feather";
@@ -11,9 +11,10 @@ import firebase from '@react-native-firebase/app';
 import auth from "@react-native-firebase/auth";
 
 
-const SignIn = (props) => {
+const SignUp = (props) => {
 
     const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [check_textInputChange, setCheck_textInputChange] = useState(false)
     const [secureTextEntry, setSecureTextEntry] = useState(true)
@@ -21,14 +22,11 @@ const SignIn = (props) => {
 
 
     const textInputChange = (value) => {
-        if (value !== 0) {
-            setEmail(value)
-            setCheck_textInputChange(true)
-        }
-        else {
-            setEmail(value)
-            setCheck_textInputChange(false)
-        }
+        setEmail(value)
+    }
+
+    const nameInputChange = (value) => {
+        setName(value)
     }
 
     const handlePasswordChange = (value) => {
@@ -39,9 +37,7 @@ const SignIn = (props) => {
         setSecureTextEntry(!secureTextEntry)
     }
 
-
-
-    const Signin = () => {
+    const SignUp = () => {
         if (email == '') {
             Alert.alert("Bạn chưa nhập tài khoản !");
         }
@@ -51,20 +47,9 @@ const SignIn = (props) => {
         else {
             firebase
                 .auth()
-                .signInWithEmailAndPassword(email, password)
-                .then(() => props.navigation.navigate('DrawerNavigator'))
-                .then(() => Alert.alert("Đăng nhập thành công !"))
-                .catch(error => {
-                    if (error.code === 'auth/invalid-email') {
-                        setErrorMessage('Địa chỉ Email không hợp lệ !');
-                    }
-                    if (error.code === 'auth/wrong-password') {
-                        setErrorMessage('Sai mật khẩu !');
-                    }
-                    if (error.code === 'auth/user-not-found') {
-                        setErrorMessage('Không tìm thấy tài khoản !');
-                    }
-                })
+                .createUserWithEmailAndPassword(email, password)
+                .then(() => Alert.alert("Đăng ký thành công !"))
+                .catch(error => setErrorMessage(error.message))
             return true;
         }
         return false;
@@ -94,24 +79,14 @@ const SignIn = (props) => {
                 </View>
             </View>  */}
             <View style={styles.header}>
-                <View style={{ marginBottom: 60, marginHorizontal: 20 }}>
+                <View style={{ marginBottom: 60, marginLeft: 220}}>
                     <Animatable.Text animation="slideInDown" iterationCount={5} direction="alternate" style={{ fontWeight: 'bold', fontSize: 30, color: "#fff" }}>Welcome !</Animatable.Text>
                 </View>
             </View>
             <Animatable.View style={styles.footer} animation="fadeInUpBig">
-                <View style={styles.logoView}>
-                    <TouchableOpacity style={styles.logo}>
-                        <FontAwesome name="facebook" size={25} color="#2980B9" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.logo}>
-                        <FontAwesome name="instagram" size={25} color="#CA6F1E" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.logo}>
-                        <FontAwesome name="twitter" size={25} color="#5DADE2" />
-                    </TouchableOpacity>
-                </View>
+
                 <View style={{ marginVertical: 10, marginTop: 30, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 12, fontStyle: 'italic', color: "#494949" }}>hoặc sử dụng tài khoản đã có</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#34495E" }}>Đăng ký tài khoản</Text>
                 </View>
                 <View >
                     <View style={styles.input}>
@@ -122,6 +97,16 @@ const SignIn = (props) => {
                             onChangeText={(email) => textInputChange(email)}
                             value={email}
                         />
+                    </View>
+                    <View style={styles.input}>
+                        <TextInput
+                            placeholder="Tên đăng nhập "
+                            autoCapitalize="none"
+                            style={{ width: '100%' }}
+                            onChangeText={(name) => nameInputChange(name)}
+                            value={name}
+                        />
+
                     </View>
                     <View style={styles.input}>
                         <TextInput
@@ -142,32 +127,25 @@ const SignIn = (props) => {
                             }
                         </TouchableOpacity>
                     </View>
-                    <View style={{ justifyContent: 'center', marginHorizontal: 10, alignItems: 'center', marginTop: 10 }}>
-                        {errorMessage != null ? (
-                            <>
-                                <Text style={{ color: 'red', fontSize: 18 }}>
-                                    {errorMessage}
-                                </Text>
-                            </>
-                        ) : (
-                                <>
-                                
-                                </>
-                            )
 
+                    <View style={{ justifyContent: 'center', marginHorizontal: 10, alignItems: 'center', marginTop: 10 }}>
+                        {errorMessage &&
+                            <Text style={{ color: 'red', fontSize: 18 }}>
+                                {errorMessage}
+                            </Text>
                         }
                     </View>
                     <View style={{ marginTop: 30 }}>
-                        <TouchableOpacity onPress={Signin}>
+                        <TouchableOpacity onPress={SignUp}>
                             <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
-                                <Text style={{ color: '#fff' }}>Đăng nhập </Text>
+                                <Text style={{ color: '#fff' }}>Đăng ký </Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontStyle: 'italic', color: '#009387' }}>Chưa có tài khoản ? </Text>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('SignUp')}>
-                            <Animatable.Text animation="pulse" easing="ease-out" iterationCount="infinite" style={{color:'red'}}>Đăng ký</Animatable.Text>
+                        <Text style={{ fontStyle: 'italic', color: '#009387' }}>Đã có tài khoản ? </Text>
+                        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                            <Animatable.Text animation="pulse" easing="ease-out" iterationCount="infinite" style={{ color: 'red' }}>Đăng nhập</Animatable.Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -202,7 +180,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 20,
-        paddingTop: 20
     },
     image: {
         width: height_logo,
@@ -245,4 +222,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SignIn;
+export default SignUp;

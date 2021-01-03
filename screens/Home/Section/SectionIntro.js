@@ -11,26 +11,20 @@ const SectionIntro = (props) => {
     return (
         <>
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('HomeDetailMenu', {
-                    menuParams: props.menu
-                })}>
-                    <View style={styles.category}>
-                        <Image source={meat} style={styles.imgIntro} />
-                        <Text style={styles.textIntro}>Thực phẩm sạch</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <View style={styles.category}>
-                        <Image source={luxury} style={styles.imgIntro} />
-                        <Text style={styles.textIntro}>Sang trọng</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <View style={styles.category}>
-                        <Image source={food} style={styles.imgIntro} />
-                        <Text style={styles.textIntro}>Phục vụ tận tình</Text>
-                    </View>
-                </TouchableOpacity>
+
+                <View style={styles.category}>
+                    <Image source={meat} style={styles.imgIntro} />
+                    <Text style={styles.textIntro}>Thực phẩm sạch</Text>
+                </View>
+                <View style={styles.category}>
+                    <Image source={luxury} style={styles.imgIntro} />
+                    <Text style={styles.textIntro}>Sang trọng</Text>
+                </View>
+                <View style={styles.category}>
+                    <Image source={food} style={styles.imgIntro} />
+                    <Text style={styles.textIntro}>Phục vụ tận tình</Text>
+                </View>
+
 
             </View>
 
@@ -42,21 +36,21 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         flexDirection: 'row',
         flex: 3,
-        marginTop:10
+        marginTop: 10
     },
     category: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        width:132
+        width: 132
     },
     imgIntro: {
         width: 50,
         height: 50,
-        marginBottom:10
+        marginBottom: 10
     },
-    textIntro : {
-        fontStyle:'italic'
+    textIntro: {
+        fontStyle: 'italic'
     }
 })
 

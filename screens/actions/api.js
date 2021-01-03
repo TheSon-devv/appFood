@@ -3,14 +3,15 @@ import axios from 'axios';
 // const URL = 'http://192.168.0.101:3000/';
 
 let API_URL = 'http://192.168.0.101:3000';
-   export default function callApi(endpoint, method = 'GET', body) {
-       return axios({
-           method,
-           url: `${API_URL}/${endpoint}`,
-           data: body
-       }).catch(err => {
-           console.log(err);
-       });
+
+export default function callApi(endpoint, method, body) {
+    return axios({
+        method,
+        url: `${API_URL}/${endpoint}`,
+        data: body
+    }).catch(err => {
+        console.log(err);
+    });
 }
 
 // export const monAn = (url = URL + 'MonAn/') => {

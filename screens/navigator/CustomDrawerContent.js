@@ -1,32 +1,65 @@
 import React, { Component } from 'react';
-import { useContext } from 'react';
 import { useState } from 'react';
-import { SafeAreaView, TouchableOpacity, Text, Image, View, StyleSheet } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Text, Image, View, StyleSheet, Button, Alert } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { AuthContext } from "../../components/context";
+import { connect } from "react-redux";
+import { useEffect } from 'react';
+import firebase from '@react-native-firebase/app';
+import auth from "@react-native-firebase/auth";
 
-const CustomDrawerContent = ({navigation}) => {
+const CustomDrawerContent = (props) => {
     const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null)
+
+    useEffect(() => {
+        const { currentUser } = firebase.auth();
+        setCurrentUser(currentUser)
+    }, [])
 
     const onToggle = () => {
         setIsDarkTheme(true)
     }
 
-    const {signOut} = useContext(AuthContext);
+    const handleSignOut = () => {
+
+        // if(window.confirm("Bạn có chắc chắn muốn đăng xuất ?")){
+        //     firebase
+        //     .auth()
+        //     .signOut()
+        // }
+        Alert.alert(
+            'Bạn có chắc chắn muốn thoát ?',
+            '',
+            [
+                {
+                    text: 'OK',
+                    onPress: () => {firebase.auth().signOut(),props.navigation.navigate('SplashScreen')}
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                }
+
+            ],
+            { cancelable: false });
+    }
     return (
         <SafeAreaView style={{ flex: 1 }}>
+
+
             <View style={styles.login}>
                 <View style={styles.avatar}>
 
                 </View>
                 <View style={{ marginVertical: 10 }}>
-                    <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold' }}> The Son</Text>
+                    <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold' }}>{currentUser && currentUser.email}</Text>
                 </View>
             </View>
             <View style={styles.menuItem}>
-                <TouchableOpacity onPress={() => navigation.navigate('Home')} >
+                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} >
                     <View style={{ marginVertical: 10 }}>
 
                         <View style={{ flexDirection: 'row' }}>
@@ -41,7 +74,7 @@ const CustomDrawerContent = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Home')} >
+                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} >
                     <View style={{ marginVertical: 10 }}>
 
                         <View style={{ flexDirection: 'row' }}>
@@ -56,7 +89,7 @@ const CustomDrawerContent = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Home')} >
+                <TouchableOpacity onPress={() => props.navigation.navigate('Contact')} >
                     <View style={{ marginVertical: 10 }}>
 
                         <View style={{ flexDirection: 'row' }}>
@@ -64,7 +97,7 @@ const CustomDrawerContent = ({navigation}) => {
                                 <Ionicons name="settings-outline" size={25} />
                             </View>
                             <View style={styles.nameItem}>
-                                <Text style={styles.textItem}>Cài đặt</Text>
+                                <Text style={styles.textItem}>Liên hệ</Text>
                             </View>
                         </View>
 
@@ -88,11 +121,9 @@ const CustomDrawerContent = ({navigation}) => {
 
             </View>
 
-
-
             <View>
-                <TouchableOpacity onPress={() => {signOut()}} >
-                {/* navigation.navigate('Home') */}
+                <TouchableOpacity onPress={handleSignOut} >
+                    {/* navigation.navigate('Home') */}
                     <View style={{ marginVertical: 10 }}>
 
                         <View style={{ flexDirection: 'row' }}>
@@ -107,6 +138,9 @@ const CustomDrawerContent = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
             </View>
+
+
+
         </SafeAreaView>
     )
 }
@@ -146,4 +180,8 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CustomDrawerContent;
+const mapStateToProps = state => ({
+    isLogin: state.loginReducer.isLogin
+})
+
+export default connect(mapStateToProps, null)(CustomDrawerContent);

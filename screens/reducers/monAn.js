@@ -1,9 +1,23 @@
-import { GET_ALL_PRODUCT, GET_NUMBER_CART, ADD_CART, DECREASE_QUANTITY, INCREASE_QUANTITY, DELETE_CART } from '../actions/monAn';
+import {
+    GET_ALL_PRODUCT,
+    GET_NUMBER_CART,
+    ADD_CART,
+    DECREASE_QUANTITY,
+    INCREASE_QUANTITY,
+    DELETE_CART,
+    GET_ALL_MON_LAU,
+    GET_ALL_MON_PIZZA,
+    GET_ALL_MON_BUFFET,
+}
+    from '../actions/monAn';
 
 const initMonAn = {
     numberCart: 0,
     Carts: [],
-    monAns: []
+    monAns: [],
+    monAnLau: [],
+    monAnPizza: [],
+    monAnBuffet: [],
 }
 
 const monAn = (state = initMonAn, action) => {
@@ -12,6 +26,21 @@ const monAn = (state = initMonAn, action) => {
             return {
                 ...state,
                 monAns: [...action.payload]
+            }
+        case GET_ALL_MON_LAU:
+            return {
+                ...state,
+                monAnLau: [...action.payload]
+            }
+        case GET_ALL_MON_PIZZA:
+            return {
+                ...state,
+                monAnPizza: [...action.payload]
+            }
+        case GET_ALL_MON_BUFFET:
+            return {
+                ...state,
+                monAnBuffet: [...action.payload]
             }
         case GET_NUMBER_CART:
             return {
@@ -53,24 +82,24 @@ const monAn = (state = initMonAn, action) => {
             }
         case INCREASE_QUANTITY:
             state.numberCart++
-            state.Carts[action.payload].quantity++; 
+            state.Carts[action.payload].quantity++;
             return {
                 ...state
             }
         case DECREASE_QUANTITY:
             let quantity = state.Carts[action.payload].quantity
-            if(quantity > 1){
+            if (quantity > 1) {
                 state.numberCart--
-                state.Carts[action.payload].quantity--; 
+                state.Carts[action.payload].quantity--;
             }
             return {
                 ...state
             }
         case DELETE_CART:
             let _quantity = state.Carts[action.payload].quantity;
-            return{
+            return {
                 ...state,
-                numberCart : state.numberCart - _quantity,
+                numberCart: state.numberCart - _quantity,
                 Carts: state.Carts.filter(item => {
                     return item.maMA != state.Carts[action.payload].maMA
                 })
